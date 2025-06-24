@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
         
             //Make heldobject follow the cursor
             if(IsHoldingObject()){
-                Vector2 direction = ((Vector2)mousePosition - heldObject.position);
+                Vector2 direction = (Vector2)mousePosition - heldObject.position;
                 Vector2 force = direction * moveForce;
 
                 heldObject.linearVelocity = Vector2.ClampMagnitude(force, maxVelocity);

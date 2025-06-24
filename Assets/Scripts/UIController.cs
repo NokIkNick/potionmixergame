@@ -10,6 +10,16 @@ public class UIController : MonoBehaviour
 
     public static UIController Instance {get; private set;}
 
+    void OnEnable()
+    {
+        GameStateController.OnGameStateChanged += UpdateUI;
+    }
+
+    void OnDisable()
+    {
+        GameStateController.OnGameStateChanged -= UpdateUI;
+    }
+
     private void Awake()
     {
         if(Instance != null && Instance != this){
@@ -46,6 +56,11 @@ public class UIController : MonoBehaviour
                 this.brewingUI.SetActive(false);
                 this.huntingUI.SetActive(true);
                 this.testingUI.SetActive(false);
+                break;
+            case GameState.TESTING:
+                this.testingUI.SetActive(true);
+                this.huntingUI.SetActive(false);
+                this.brewingUI.SetActive(false);
                 break;
         }
     }

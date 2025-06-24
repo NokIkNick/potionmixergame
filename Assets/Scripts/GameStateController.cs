@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameStateController : MonoBehaviour
@@ -6,6 +7,9 @@ public class GameStateController : MonoBehaviour
     [SerializeField] private PlayerController playerController;
     [SerializeField] private HuntingController huntingController;
     public static GameStateController Instance {get; private set;}
+
+
+    public static event Action<GameState> OnGameStateChanged;
 
     private void Awake()
     {
@@ -33,6 +37,9 @@ public class GameStateController : MonoBehaviour
     public void SetGameState(GameState gameState){
         if(currentGameState == gameState) return;
 
+        OnGameStateChanged?.Invoke(gameState);
+
+        this.currentGameState = gameState;
 
         switch(gameState){
             case GameState.BREWING:
@@ -43,9 +50,12 @@ public class GameStateController : MonoBehaviour
                 playerController.enabled = false;
                 huntingController.enabled = true;
                 break;
+            case GameState.TESTING:
+                playerController.enabled = true;
+                huntingController.enabled = false;
+                break;
         }
 
-        UIController.Instance.UpdateUI(currentGameState);
     }
 
 
@@ -65,6 +75,7 @@ public enum GameState {
     BREWING,
     HUNTING,
     PAUSED,
-    MENU
+    MENU,
+    TESTING
 }
 

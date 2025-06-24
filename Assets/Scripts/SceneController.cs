@@ -9,6 +9,7 @@ public class SceneController : MonoBehaviour
     }
 
     IEnumerator LoadSceneMode(int id){
+
         AsyncOperation scene = SceneManager.LoadSceneAsync(id);
         
 
@@ -18,8 +19,14 @@ public class SceneController : MonoBehaviour
 
         if(scene.isDone){
             switch(id){
+            case 0:
+                GameStateController.Instance.SetGameState(GameState.BREWING);
+                break;
             case 1:
                 GameStateController.Instance.SetGameState(GameState.HUNTING);
+                break;
+            case 2:
+                GameStateController.Instance.SetGameState(GameState.TESTING);
                 break;
         }
         }
